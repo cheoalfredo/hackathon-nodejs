@@ -32,32 +32,32 @@ stages:
     #    ArtifactName: 'drop'
     #    publishLocation: 'Container'
 
-- stage: 'dev_continuous_delivery' 
-  enable: false
-  displayName: 'Despliegue 2k8s'
-  dependsOn: continuous_integration
-  jobs:
-  - deployment: Deploy
-    pool:
-      name: VivaAir
-    environment: dev
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - download: none
-          - task: DownloadBuildArtifacts@0
-            displayName: Descargar artefacto para el despliegue
-            inputs:
-              buildType: 'current'
-              downloadType: 'single'
-              artifactName: 'drop'
-              downloadPath: '$(Pipeline.Workspace)'
+#- stage: 'dev_continuous_delivery' 
+#  enable: false
+#  displayName: 'Despliegue 2k8s'
+#  dependsOn: continuous_integration
+#  jobs:
+#  - deployment: Deploy
+#    pool:
+#      name: VivaAir
+#    environment: dev
+#    strategy:
+#      runOnce:
+#        deploy:
+#          steps:
+#          - download: none
+#          - task: DownloadBuildArtifacts@0
+#            displayName: Descargar artefacto para el despliegue
+#            inputs:
+#              buildType: 'current'
+#              downloadType: 'single'
+#              artifactName: 'drop'
+#              downloadPath: '$(Pipeline.Workspace)'
 
-          - task: Kubernetes@0
-            displayName: 'Despliegue Cluster de Kubernetes'
-            enabled: true
-            inputs:
-              kubernetesServiceConnection: 'AksHackathon'
-              command: apply
-              arguments: '-f $(Pipeline.Workspace)/drop/template-booking-$(Build.SourceBranchName).yaml'
+#          - task: Kubernetes@0
+#            displayName: 'Despliegue Cluster de Kubernetes'
+#            enabled: true
+#            inputs:
+#              kubernetesServiceConnection: 'AksHackathon'
+#              command: apply
+#              arguments: '-f $(Pipeline.Workspace)/drop/template-booking-$(Build.SourceBranchName).yaml'
