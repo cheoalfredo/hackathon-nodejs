@@ -3,10 +3,9 @@ name: 'Build and publish microservice'
 trigger:
 - master
 
-pool: Centos
-
 stages:
 - stage: continuous_integration
+  pool: Centos
   displayName: Integración Continua
   jobs:
   - job: Build
