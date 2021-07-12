@@ -7,7 +7,7 @@ stages:
   jobs:
   - job: Build
     pool:
-      name: Centos
+      name: 'Centos'
     steps:
     - task: Docker@2
       displayName: Build & Push imagen Docker
