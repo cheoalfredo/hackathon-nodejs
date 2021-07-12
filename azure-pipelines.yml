@@ -1,8 +1,6 @@
 trigger:
 - master
 
-variables:
-
 stages:
 - stage: continuous_integration
   displayName: Integración Continua
