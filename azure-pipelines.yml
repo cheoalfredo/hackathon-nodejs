@@ -1,0 +1,64 @@
+name: 'Build and publish microservice'
+
+trigger:
+- master
+
+stages:
+- stage: continuous_integration
+  pool: Centos
+  displayName: Integración Continua
+  jobs:
+  - job: Build
+    steps:
+    - task: Docker@2
+      displayName: Build & Push imagen Docker
+      inputs:
+        containerRegistry: 'MyDockerHub'
+        repository: 'backend-booking'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        buildContext: '.'
+        tags: |
+          $(Build.BuildId)
+          latest
+    #- task: CmdLine@2
+    #  displayName: 'Generar Manifest'
+    #  inputs:
+    #    script: 'sed ''s/__tag__/$(Build.BuildId)/g'' "$(System.DefaultWorkingDirectory)/template-booking-$(Build.SourceBranchName).yaml" > "$(build.artifactstagingdirectory)/template-booking-$(Build.SourceBranchName).yaml"'
+
+    #- task: PublishBuildArtifacts@1
+    #  displayName: Publicar artefacto para el despliegue (develop)
+    #  inputs:
+    #    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    #    ArtifactName: 'drop'
+    #    publishLocation: 'Container'
+
+#- stage: 'dev_continuous_delivery' 
+#  enabled: false
+#  displayName: 'Despliegue 2k8s'
+#  dependsOn: continuous_integration
+#  jobs:
+#  - deployment: Deploy
+#    pool:
+#      name: VivaAir
+#    environment: dev
+#    strategy:
+#      runOnce:
+#        deploy:
+#          steps:
+#          - download: none
+#          - task: DownloadBuildArtifacts@0
+#            displayName: Descargar artefacto para el despliegue
+#            inputs:
+#              buildType: 'current'
+#              downloadType: 'single'
+#              artifactName: 'drop'
+#              downloadPath: '$(Pipeline.Workspace)'
+
+#          - task: Kubernetes@0
+#            displayName: 'Despliegue Cluster de Kubernetes'
+#            enabled: true
+#            inputs:
+#              kubernetesServiceConnection: 'AksHackathon'
+#              command: apply
+#              arguments: '-f $(Pipeline.Workspace)/drop/template-booking-$(Build.SourceBranchName).yaml'
