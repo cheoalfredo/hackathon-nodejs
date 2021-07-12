@@ -33,7 +33,7 @@ stages:
     #    publishLocation: 'Container'
 
 #- stage: 'dev_continuous_delivery' 
-#  enable: false
+#  enabled: false
 #  displayName: 'Despliegue 2k8s'
 #  dependsOn: continuous_integration
 #  jobs:
