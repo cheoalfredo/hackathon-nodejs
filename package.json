@@ -1,0 +1,13 @@
+{
+  "name": "sample-app",  
+  "version": "1.0.0",
+  "author": "Jose A. Fernandez", 
+  "main" : "index.js",
+  "scripts" : {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-generator": "^4.16.1"
+  }
+}
